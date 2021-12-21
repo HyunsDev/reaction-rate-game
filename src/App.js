@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './css/app.scss';
 import './css/game.scss'
@@ -30,7 +30,7 @@ const Screen = (props) => {
 const Result = (props) => {
   const [userName, setUserName] = useState("")
   const [isInputAble, setInputAble] = useState(true)
-  const [recodes, setRecodes] = useState([])
+  const [records, setRecords] = useState({record: [], rank: []})
 
   const keyPress = async (e, userName) => {
     if (e.key === 'Enter' && isInputAble && userName && userName !== "") {
@@ -52,11 +52,17 @@ const Result = (props) => {
   useEffect(() => {
     (async () => {
       const response = await axios.get(process.env.REACT_APP_API_SERVER)
-      setRecodes(response.data.data)
+      console.log(response.data.data)
+      setRecords(response.data.data)
     })()
   }, [])
 
-  const rankList = recodes.map((e,i) => <div className='rank' key={`rank-${i}`}>
+  const recordsList = records.record.map((e,i) => <div className='rank' key={`rank-${i}`}>
+    <div className='name'>{e.name}</div>
+    <div className='score'>{e.score}ms</div>
+  </div>)
+
+  const rankList = records.rank.map((e,i) => <div className='rank' key={`rank-${i}`}>
     <div className='name'>{e.name}</div>
     <div className='score'>{e.score}ms</div>
   </div>)
@@ -74,6 +80,13 @@ const Result = (props) => {
               <div className='name'>{userName || "이름없음"}</div>
               <div className='score'>{props.score}ms</div>
             </div>
+            {recordsList}
+          </div>
+        </div>
+
+        <div className='ranking'>
+          <div className='rank-title'>랭킹</div>
+          <div className='ranks'>
             {rankList}
           </div>
         </div>
