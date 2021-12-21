@@ -1,0 +1,108 @@
+.screen {
+    user-select: none;
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    color: #ffffff;
+
+    .btns {
+        user-select: none;
+        text-align: center;
+        .btn {
+            width: 60vw;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            border: solid 4px #ffffff;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 36px;
+            transition: 100ms;
+        }
+
+        .btn-ready {
+            background-color: #ffffff;
+            color: #000;
+        }
+
+        .btn-team-name {
+            color: #ffffff;
+            margin-top: 16px;
+            margin-bottom: 32px;
+        }
+    }
+
+    .team-1 {
+        transform: rotate(180deg);
+    }
+
+    .explain {
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 64px;
+
+        h1 {
+            font-size: 10vw;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 180%;
+        }
+    }
+
+    .countdown {
+        color: #ffffff;
+        font-size: 20vw;
+    }
+
+    .result {
+        text-align: center;
+        
+        p {
+            font-size: 20px;
+        }
+
+        .user-result {
+            font-size: 80px;
+            font-weight: 700;
+            margin-bottom: 60px;
+        }
+
+        .input-name {
+            border: 0;
+            border-bottom: solid 4px #ffffff;
+            outline: none;
+            background: none;
+            font-size: 20px;
+            padding: 4px;
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 40px;
+        }
+
+        .ranking {
+            margin: 0 auto;
+            width: 200px;
+            
+            .rank {
+                display: flex;
+                justify-content: space-between;
+
+                margin-bottom: 4px;
+            }
+        }
+    }
+}

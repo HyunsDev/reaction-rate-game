@@ -1,0 +1,19 @@
+.game {
+    height: 100%;
+    width: 100vw;
+    background-color: #F5B608;
+    color: #ffffff;
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding-bottom: 32px;
+    padding-top: 32px;
+
+    .title {
+        font-size: 6vw;
+        font-weight: 700;
+    }
+}
