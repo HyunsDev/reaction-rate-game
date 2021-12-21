@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
-import dotenv from 'dotenv'
 import './css/app.scss';
 import './css/game.scss'
 import './css/screen.scss'
-dotenv.config()
 
 const ScreenBtns = (props) => {
   return (<div className={`btns`} onClick={() => props.click() }>
@@ -32,39 +30,51 @@ const Screen = (props) => {
 const Result = (props) => {
   const [userName, setUserName] = useState("")
   const [isInputAble, setInputAble] = useState(true)
+  const [recodes, setRecodes] = useState([])
 
-  const keyPress = async (e) => {
-    if (e.key === 'Enter' && isInputAble) {
+  const keyPress = async (e, userName) => {
+    if (e.key === 'Enter' && isInputAble && userName && userName !== "") {
         try {
-          const response = await axios.post(process.env.REACT_APP_API_SERVER,{
+          setInputAble(false)
+          const response = await axios.post(process.env.REACT_APP_API_SERVER, {
               name: userName,
               score: props.score,
               key: process.env.REACT_APP_API_KEY
           });
           console.log(response);
         } catch (error) {
+          setInputAble(true)
           console.error(error);
         }
     }
   }
 
-  const onchange = (e) => {
-    setUserName(e.value)
-  }
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get(process.env.REACT_APP_API_SERVER)
+      setRecodes(response.data.data)
+    })()
+  }, [])
+
+  const rankList = recodes.map((e,i) => <div className='rank' key={`rank-${i}`}>
+    <div className='name'>{e.name}</div>
+    <div className='score'>{e.score}ms</div>
+  </div>)
 
   return (
     <div className='screen'>
       <div className='result'>
         <p>내 반응 속도</p>
         <div className='user-result'>{props.score}ms</div>
-        <input onKeyPress={keyPress} onChange={onchange} value={userName.value} type={"text"} placeholder='이름을 입력하세요' className='input-name'/>
+        <input readOnly={!isInputAble} onKeyPress={(e) => keyPress(e, userName)} onChange={(e) => setUserName(e.target.value)} value={userName || ""} type={"text"} placeholder='이름을 입력하세요' className={`input-name ${isInputAble ? "" : "input-unable"}`}/>
         <div className='ranking'>
           <div className='rank-title'>최근 기록</div>
           <div className='ranks'>
             <div className='rank'>
-              <div className='name'>박현우</div>
-              <div className='score'>200ms</div>
+              <div className='name'>{userName || "이름없음"}</div>
+              <div className='score'>{props.score}ms</div>
             </div>
+            {rankList}
           </div>
         </div>
       </div>
